@@ -1,5 +1,11 @@
-from app import app
 from flask import request
+from app import app, db
+from app.models import Device, Datapoint
+
+# not sure this belongs here, but wha-hey!
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'Device': Device, 'Datapoint': Datapoint}
 
 @app.route('/')
 def hello_world():
