@@ -2,7 +2,8 @@ from flask import request
 from app import app, db
 from app.models import Device, Datapoint
 
-# not sure this belongs here, but wha-hey!
+# Enable the ability to call "flask shell" and get an automatic
+# database and "Device" and "Datapoint" objects to work with.
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'Device': Device, 'Datapoint': Datapoint}
@@ -16,4 +17,8 @@ def log(device_id):
     if request.method == 'POST':
         return '{}\'s endpoint sent data'.format(device_id)
     else:
-        return '{}\'s endpoint requested data'.format(device_id)
+        datapoints = Datapoint.query.all()
+        d_arr = []
+        for d in datapoints:
+            d_arr.append(d.value)
+        return str(d_arr)
