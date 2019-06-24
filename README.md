@@ -6,9 +6,11 @@ Might be a good place to send some IOT data and kick off actions accordingly.
 
 ### Setting up the database with Alembic
 
-To initialize the database via Alembic the first time, run `flask db migrate -m "devices"` and then the same for `datapoints`
+To initialize the database via Alembic the first time. Initialize the db with `flask db init` then run `flask db migrate -m "devices"` and then the same for `datapoints`
 
 Next, run `flask db upgrade` to do the actual db work
+
+Any time you want to do some modifications to the models, rerun `flask db migrate -m "<object_names>"` and rerun `flask db upgrade`
 
 ### Working with data from the database
 

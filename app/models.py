@@ -17,6 +17,7 @@ class Device(db.Model):
 class Datapoint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    key = db.Column(db.String(256))
     value = db.Column(db.String(256))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
