@@ -1,6 +1,5 @@
 from datetime import datetime
-from app import db
-from marshmallow import Schema, fields
+from app import db, ma
 
 class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -8,11 +7,6 @@ class Device(db.Model):
 
     def __repr__(self):
         return '<Device {}>'.format(self.id)
-
-# class DeviceSchema(Schema):
-#     id = fields.Int(dump_only=True)
-#     # TODO:
-#     # datapoints
 
 class Datapoint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,3 +17,11 @@ class Datapoint(db.Model):
 
     def __repr__(self):
         return '<Datapoint {}>'.format(self.id)
+
+class DeviceSchema(ma.ModelSchema):
+    class Meta:
+        model = Device
+
+class DatapointSchema(ma.ModelSchema):
+    class Meta:
+        model = Datapoint

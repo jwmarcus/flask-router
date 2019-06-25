@@ -1,6 +1,6 @@
-from flask import request
+from flask import request, jsonify
 from app import app, db
-from app.models import Device, Datapoint
+from app.models import Device, DeviceSchema, Datapoint, DatapointSchema
 
 # Enable the ability to call "flask shell" and get an automatic
 # database and "Device" and "Datapoint" objects to work with.
@@ -17,8 +17,7 @@ def log(device_id):
     if request.method == 'POST':
         return '{}\'s endpoint sent data'.format(device_id)
     else:
-        datapoints = Datapoint.query.all()
-        d_arr = []
-        for d in datapoints:
-            d_arr.append(d.value)
-        return str(d_arr)
+        datapoints = Datapoint.query.filter_by(device_id=device_id).all()
+        datapoint_schema = DatapointSchema(many=True)
+        output = datapoint_schema.dump(datapoints).data
+        return jsonify({'result': output})

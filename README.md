@@ -21,3 +21,6 @@ datapoints = Datapoint.query.all()
 for d in datapoints:
     print(p.device_id, p.value, p.timestamp)
 ```
+
+
+TODO: Why do I want to use `db.relationship('User', backref='rewards')` again?
