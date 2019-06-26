@@ -12,12 +12,8 @@ def make_shell_context():
 def hello_world():
   return 'Hello, World!'
 
-@app.route('/log/<device_id>', methods=['GET', 'POST'])
-def log(device_id):
-    if request.method == 'POST':
-        return '{}\'s endpoint sent data'.format(device_id)
-    else:
-        datapoints = Datapoint.query.filter_by(device_id=device_id).all()
-        datapoint_schema = DatapointSchema(many=True)
-        output = datapoint_schema.dump(datapoints).data
-        return jsonify({'result': output})
+@app.route('/log/device/<device_id>/all', methods=['GET'])
+def get_device_all(device_id):
+    datapoints = Datapoint.query.filter_by(device_id=device_id).all()
+    datapoint_schema = DatapointSchema(many=True)
+    return jsonify({'result': datapoint_schema.dump(datapoints).data})

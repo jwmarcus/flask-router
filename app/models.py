@@ -9,10 +9,15 @@ class Device(db.Model):
         return '<Device {}>'.format(self.id)
 
 class Datapoint(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True) # db_id
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
-    key = db.Column(db.String(256))
+    mac_addr = db.Column(db.String(24))
+    field = db.Column(db.String(256))
     value = db.Column(db.String(256))
+    type = db.Column(db.String(256))
+    # create_time is when the measurement was taken
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # timestamp is when the record was created in the database
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
