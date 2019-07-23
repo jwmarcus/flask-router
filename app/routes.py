@@ -11,14 +11,19 @@ def make_shell_context():
 
 @app.route("/")
 def hello_world():
-    return "Hello, World!"
+    return jsonify(status="OK", code=200, messages=[], response=[{'message': "Hello there!"}])
+
+
+@app.errorhandler(404)
+def handle_404(error):
+    return jsonify(status="ERROR", code=404, messages=[str(error)], response=[])
 
 
 # Datapoint routes
 @app.route("/api/data/", methods=["GET"])
 def get_datapoints():
     datapoints = Datapoint.query.all()
-    schema = DeviceSchema(many=True)
+    schema = DatapointSchema(many=True)
 
     return jsonify(
         status="OK", code=200, messages=[], response=schema.dump(datapoints).data
@@ -42,9 +47,18 @@ def get_datapoints_by_filter(filter_key, filter_val):
     )
 
 
-@app.route("/api/data/", methods=["POST"])
-def post_datapoints():
-    return "Hallo"
+@app.route("/api/data/<int:device_id>/", methods=["POST"])
+def post_datapoint(device_id):
+    datapoint = Datapoint(
+        mac_addr=request.form["mac_addr"],
+        field=request.form["field"],
+        value=request.form["value"],
+        type=request.form["type"],
+    )
+    db.session.add(datapoint)
+    db.session.commit()
+
+    return jsonify()
 
 
 # Device routes
