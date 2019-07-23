@@ -12,8 +12,12 @@ def make_shell_context():
 def hello_world():
   return 'Hello, World!'
 
-@app.route('/log/<filter_key>/<filter_val>/all', methods=['GET'])
-def get_all(filter_key, filter_val):
+@app.route('/api/data/filter/<filter_key>/<filter_val>/', methods=['GET'])
+def get_by_filter(filter_key, filter_val):
+    if filter_key not in dir(Datapoint):
+        return jsonify(status='ERROR', code=400, response=[],
+            messages=["Filter request is invalid. Check that key exists."])
     datapoints = Datapoint.query.filter_by(**{filter_key: filter_val}).all()
     datapoint_schema = DatapointSchema(many=True)
-    return jsonify({'result': datapoint_schema.dump(datapoints).data})
+    return jsonify(status='OK', code=200, messages=[],
+        response=datapoint_schema.dump(datapoints).data)
