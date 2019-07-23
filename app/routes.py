@@ -11,7 +11,9 @@ def make_shell_context():
 
 @app.route("/")
 def hello_world():
-    return jsonify(status="OK", code=200, messages=[], response=[{'message': "Hello there!"}])
+    return jsonify(
+        status="OK", code=200, messages=[], response=[{"message": "Hello there!"}]
+    )
 
 
 @app.errorhandler(404)

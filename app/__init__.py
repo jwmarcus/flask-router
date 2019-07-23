@@ -1,7 +1,7 @@
 from config import Config
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy # Must init before Flask-Marshmallow.
+from flask_sqlalchemy import SQLAlchemy  # Must init before Flask-Marshmallow.
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 
