@@ -12,8 +12,8 @@ def make_shell_context():
 def hello_world():
   return 'Hello, World!'
 
-@app.route('/log/device/<device_id>/all', methods=['GET'])
-def get_device_all(device_id):
-    datapoints = Datapoint.query.filter_by(device_id=device_id).all()
+@app.route('/log/<filter_key>/<filter_val>/all', methods=['GET'])
+def get_all(filter_key, filter_val):
+    datapoints = Datapoint.query.filter_by(**{filter_key: filter_val}).all()
     datapoint_schema = DatapointSchema(many=True)
     return jsonify({'result': datapoint_schema.dump(datapoints).data})
