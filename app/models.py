@@ -1,16 +1,18 @@
 from datetime import datetime
 from app import db, ma
 
+
 class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    datapoints = db.relationship('Datapoint')
+    datapoints = db.relationship("Datapoint")
 
     def __repr__(self):
-        return '<Device {}>'.format(self.id)
+        return "<Device {}>".format(self.id)
+
 
 class Datapoint(db.Model):
-    id = db.Column(db.Integer, primary_key=True) # db_id
-    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    id = db.Column(db.Integer, primary_key=True)  # db_id
+    device_id = db.Column(db.Integer, db.ForeignKey("device.id"))
     mac_addr = db.Column(db.String(24))
     field = db.Column(db.String(256))
     value = db.Column(db.String(256))
@@ -21,11 +23,13 @@ class Datapoint(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Datapoint {}>'.format(self.id)
+        return "<Datapoint {}>".format(self.id)
+
 
 class DeviceSchema(ma.ModelSchema):
     class Meta:
         model = Device
+
 
 class DatapointSchema(ma.ModelSchema):
     class Meta:
