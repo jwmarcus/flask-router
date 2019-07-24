@@ -50,7 +50,7 @@ def get_datapoints_by_filter(filter_key, filter_val):
 
 
 @app.route("/api/data/<int:device_id>/", methods=["POST"])
-def post_datapoint(device_id):
+def create_datapoint(device_id):
     datapoint = Datapoint(
         mac_addr=request.form["mac_addr"],
         field=request.form["field"],
@@ -60,7 +60,9 @@ def post_datapoint(device_id):
     db.session.add(datapoint)
     db.session.commit()
 
-    return jsonify()
+    return jsonify(
+        status="OK", code=200, messages=["INFO: Datapoint added"], response=[]
+    )
 
 
 # Device routes
@@ -77,3 +79,31 @@ def get_devices(device_id=None):
     return jsonify(
         status="OK", code=200, messages=[], response=schema.dump(devices).data
     )
+
+
+@app.route("/api/devices/id/<mac_addr>/", methods=["GET"])
+def get_device_id_from_mac_addr(mac_addr):
+    device = Device.query.filter_by(mac_addr=mac_addr).first()
+    schema = DeviceSchema()
+    id = schema.dump(device).data['id']
+    return None if id is None else id
+
+
+@app.route("/api/devices/id/<mac_addr>/", methods=["POST"])
+def create_device_id_from_mac_addr(mac_addr):
+    existing_device_id = get_device_id_from_mac_addr(mac_addr)
+    # if existing_device_id:
+    #     return jsonify(
+    #         status="OK", code=200, messages=["INFO: Existing Device Found"], response=existing_device_id
+    #     )
+    #
+    # device = Device(
+    #     mac_addr = mac_addr
+    # )
+    # db.session.add(device)
+    # db.session.commit()
+    #
+    # return jsonify(
+    #     status="OK", code=200, messages=["INFO: Device added"], response=[]
+    # )
+    return jsonify(message="hello", mac_addr=mac_addr)
