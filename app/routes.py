@@ -9,13 +9,20 @@ def make_shell_context():
     return {"db": db, "Device": Device, "Datapoint": Datapoint}
 
 
-@app.route("/")
-def index():
-    return render_template('index.html', title="Index")
-
 @app.errorhandler(404)
 def handle_404(error):
     return jsonify(status="ERROR", code=404, messages=[str(error)], response=[])
+
+
+# Template routes
+@app.route("/")
+def index():
+    datapoints = Datapoint.query.all()
+    schema = DatapointSchema(many=True)
+    # TODO: Maybe use a different schema for data going to the charts?
+    return render_template(
+        "index.html", title="Index", payload=schema.dump(datapoints).data
+    )
 
 
 # Datapoint routes
