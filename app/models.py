@@ -14,12 +14,9 @@ class Device(db.Model):
 class Datapoint(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # db_id
     device_id = db.Column(db.Integer, db.ForeignKey("device.id"))
-    field = db.Column(db.String(256))
+    key = db.Column(db.String(256))
     value = db.Column(db.String(256))
     type = db.Column(db.String(256))
-    # create_time is when the measurement was taken
-    create_time = db.Column(db.DateTime, default=datetime.utcnow)
-    # timestamp is when the record was created in the database
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -29,8 +26,10 @@ class Datapoint(db.Model):
 class DeviceSchema(ma.ModelSchema):
     class Meta:
         model = Device
+        include_fk = True
 
 
 class DatapointSchema(ma.ModelSchema):
     class Meta:
         model = Datapoint
+        include_fk = True
