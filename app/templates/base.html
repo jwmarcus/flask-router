@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  {% if title %}
+
+  <title>{{ title }}</title>
+
+  {% else %}
+
+  <title>Welcome!</title>
+
+  {% endif %}
+
+  {% block includes_head %}
+  {% endblock %}
+
+</head>
+
+<body>
+  <div>Application Interface</div>
+  <hr>
+  {% block content %}
+  <p>
+    Default Content
+  </p>
+  {% endblock %}
+</body>
+</html>

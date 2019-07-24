@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from app import app, db
 from app.models import Device, DeviceSchema, Datapoint, DatapointSchema
 
@@ -10,11 +10,8 @@ def make_shell_context():
 
 
 @app.route("/")
-def hello_world():
-    return jsonify(
-        status="OK", code=200, messages=[], response=[{"message": "Hello there!"}]
-    )
-
+def index():
+    return render_template('index.html', title="Index")
 
 @app.errorhandler(404)
 def handle_404(error):
