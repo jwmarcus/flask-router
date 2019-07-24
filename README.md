@@ -46,7 +46,7 @@ TODO: Why do I want to use `db.relationship('User', backref='rewards')` again?
 - get all measurements for a macaddr
 - get all measurements of a type
 - get all measurements matching a field
-- everyhting above but just latest n measurements
+- everything above but just latest n measurements
 - get some time parameters
 
 get routes:
